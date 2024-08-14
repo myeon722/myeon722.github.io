@@ -1,0 +1,299 @@
+<link href="./resources/css/jspanel.css" rel="stylesheet">
+<link href="./resources/css/Main.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">    
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="./resources/js/jspanel.js"></script>
+
+<style>
+
+ul {
+  --col-gap: 2rem;
+  --row-gap: 2rem;
+  --line-w: 0.25rem;
+  display: grid;
+  grid-template-columns: var(--line-w) 1fr;
+  grid-auto-columns: max-content;
+  column-gap: var(--col-gap);
+  list-style: none;
+  width: min(60rem, 90%);
+  margin-inline: auto;
+}
+
+/* line */
+ul::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1 / span 20;
+  background: rgb(225, 225, 225);
+  border-radius: calc(var(--line-w) / 2);
+}
+
+/* columns*/
+
+/* row gaps */
+ul li:not(:last-child) {
+  margin-bottom: var(--row-gap);
+}
+
+/* card */
+ul li {
+  grid-column: 2;
+  --inlineP: 1.5rem;
+  margin-inline: var(--inlineP);
+  grid-row: span 2;
+  display: grid;
+  grid-template-rows: min-content min-content min-content;
+}
+
+/* date */
+ul li .date {
+  --dateH: 3rem;
+  height: var(--dateH);
+  margin-inline: calc(var(--inlineP) * -1);
+
+  text-align: center;
+  background-color: var(--accent-color);
+
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+
+  display: grid;
+  place-content: center;
+  position: relative;
+
+  border-radius: calc(var(--dateH) / 2) 0 0 calc(var(--dateH) / 2);
+}
+
+/* date flap */
+ul li .date::before {
+  content: "";
+  width: var(--inlineP);
+  aspect-ratio: 1;
+  background: var(--accent-color);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2) 100%, transparent);
+  position: absolute;
+  top: 100%;
+
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  right: 0;
+}
+
+/* circle */
+ul li .date::after {
+  content: "";
+  position: absolute;
+  width: 2rem;
+  aspect-ratio: 1;
+  background: var(--bgColor);
+  border: 0.3rem solid var(--accent-color);
+  border-radius: 50%;
+  top: 50%;
+
+  transform: translate(50%, -50%);
+  right: calc(100% + var(--col-gap) + var(--line-w) / 2);
+}
+
+/* title descr */
+ul li .title,
+ul li .descr {
+  background: var(--bgColor);
+  position: relative;
+  padding-inline: 1.5rem;
+}
+ul li .title {
+  overflow: hidden;
+  padding-block-start: 1.5rem;
+  padding-block-end: 1rem;
+  font-weight: 500;
+}
+ul li .descr {
+  padding-block-end: 1.5rem;
+  font-weight: 300;
+}
+
+/* shadows */
+ul li .title::before,
+ul li .descr::before {
+  content: "";
+  position: absolute;
+  width: 90%;
+  height: 0.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  left: 50%;
+  border-radius: 50%;
+  filter: blur(4px);
+  transform: translate(-50%, 50%);
+}
+ul li .title::before {
+  bottom: calc(100% + 0.125rem);
+}
+
+ul li .descr::before {
+  z-index: -1;
+  bottom: 0.25rem;
+}
+
+@media (min-width: 40rem) {
+  ul {
+    grid-template-columns: 1fr var(--line-w) 1fr;
+  }
+  ul::before {
+    grid-column: 2;
+  }
+  ul li:nth-child(odd) {
+    grid-column: 1;
+  }
+  ul li:nth-child(even) {
+    grid-column: 3;
+  }
+
+  /* start second card */
+  ul li:nth-child(2) {
+    grid-row: 2/4;
+  }
+
+  ul li:nth-child(odd) .date::before {
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+    left: 0;
+  }
+
+  ul li:nth-child(odd) .date::after {
+    transform: translate(-50%, -50%);
+    left: calc(100% + var(--col-gap) + var(--line-w) / 2);
+  }
+  ul li:nth-child(odd) .date {
+    border-radius: 0 calc(var(--dateH) / 2) calc(var(--dateH) / 2) 0;
+  }
+}
+</style>
+
+<div class="container p-5" style="height: 700px;">
+    <div class="row  p-3">
+        <img src="./resources/icon/1f4cb.svg" style="width: 100px;" class="p-3">
+        <h2>20대를 코드와 함께한 개발자 정미현입니다.</h2>
+        <div class="row">
+            <div class="col-2">
+                <div style="padding-top: 12px;padding-bottom: 12px;flex-grow: 0;flex-shrink: 0;width: calc((100% - 46px) * 0.3125);"></div>
+                <img src="./resources/image/profile.jpg" class="rounded mx-auto d-block">
+            </div>           
+            <div class="col-2"></div> 
+            <div class="col-8">
+                <div style="padding-top: 12px;padding-bottom: 12px;flex-grow: 0;flex-shrink: 0;width: calc((100% - 46px) * 0.6875);">
+                    <div style="display: flex;flex-direction: column;">
+                        <h3 style="max-width: 100%;width: 100%;white-space: pre-wrap;word-break: break-word;caret-color: rgb(55, 53, 47);padding: 3px 2px;font-weight: 600;font-size: 1.25em;line-height: 1.3;margin: 0px;     color: rgba(217, 115, 13, 1);
+                        fill: rgba(217, 115, 13, 1);">About</h3>
+                        <span style="font-weight: 600; padding-left: 10px;"> 이름 : 정미현</span>
+                        <span style="font-weight: 600; padding-left: 10px;"> 생년월일 : 1996.07.22</span>
+                        <hr></hr>
+                        <h3 style="max-width: 100%;width: 100%;white-space: pre-wrap;word-break: break-word;caret-color: rgb(55, 53, 47);padding: 3px 2px;font-weight: 600;font-size: 1.25em;line-height: 1.3;margin: 0px;     color: rgba(217, 115, 13, 1);
+                        fill: rgba(217, 115, 13, 1);">Contact</h3>
+                        <span style="font-weight: 600; padding-left: 10px;"> Email : jungmihyen@gmail.com</span>
+                        <span style="font-weight: 600; padding-left: 10px;"> Phone : 010-9105-9530</span>                        
+                        <span style="font-weight: 600; padding-left: 10px;"> GitHub : <a href="https://github.com/myeon722/myeon722.github.io" style="border-bottom: 0.05em solid;border-color: rgba(55,53,47,.4);opacity: 0.7; cursor: pointer;">https://github.com/myeon722/myeon722.github.io</a></span> 
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <h3 style="max-width: 100%;width: 100%;caret-color: rgb(55, 53, 47);padding: 3px 2px;font-weight: 600;font-size: 2.0em;line-height: 1.3;margin: 0px;color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);">Introduce</h3>        
+        <div style="max-width: 100%;width: 100%;caret-color: rgb(55, 53, 47);padding: 3px 2px; white-space: pre-line;"> 
+            <!-- 저는 7년 차의 경력을 갖춘 개발자로서 주로 spring framework 기반의 다양한 솔루션 개발 및 운영을 담당하였습니다.
+                 그동안 담당하여 수행한 업무는 sns 및 포털사이트 내 키워드 기반 데이터 수집 및 해당 데이터의 모니터링 솔루션 구현 및 운영,
+                 AI 라벨링 학습을 위한 라벨링 저작도구 지원 및 원천 데이터 수집 솔루션 구현 및 운영,
+                 다이컴 뷰어 지원 의료 데이터 관리 솔루션 구현 및 운영 등을 담당하였습니다. -->
+            저는 7년 차의 경력을 갖춘 개발자로서 주로 spring framework 기반의 다양한 솔루션 개발 및 운영을 담당하였습니다. 
+            그동안 담당하여 수행한 업무는 sns 및 포털사이트 내 키워드 기반 데이터 수집 및 해당 데이터의 모니터링 솔루션 구현 및 운영, 
+            AI 라벨링 학습을 위한 라벨링 저작도구 지원 및 원천 데이터 수집 솔루션 구현 및 운영, 
+            다이컴 뷰어 지원 의료 데이터 관리 솔루션 구현 및 운영 등을 담당하였습니다.            
+        </div>
+        <div style="max-width: 100%;width: 100%;caret-color: rgb(55, 53, 47);padding: 3px 2px; white-space: pre-line;"> 
+            <!-- 솔루션 개발 및 운영을 담당하면서 기능 구현에만 초점을 맞추어 진행하기보다 사용자 입장을 고려하며 사용자가 접근하기 편리한 ui/ux 등을 고려하며 솔루션 기획에도 참여하였으며,
+                 대용량 데이터 운영을 경험하면서 솔루션 개발 시 대용량 데이터 처리에 대해 고려하며 개발을 진행하였습니다.
+            -->
+            솔루션 개발 및 운영을 담당하면서 기능 구현에만 초점을 맞추어 진행하기보다 사용자 입장을 고려하며 사용자가 접근하기 편리한 ui/ux 등을 고려하며 솔루션 기획에도 참여하였으며,
+            대용량 데이터 운영을 경험하면서 솔루션 개발 시 대용량 데이터 처리에 대해 고려하며 개발을 진행하였습니다.
+
+        <div style="max-width: 100%;width: 100%;caret-color: rgb(55, 53, 47);padding: 3px 2px; white-space: pre-line;">
+            <!-- 라벨링 학습 솔루션 개발을 담당하면서 새로운 기술을 많이 접하게 되었습니다. 
+                 그래서 새로운 지식 습득에 대해 거부감이 없으며, 새로운 라이브러리, 도메인 습득 및 활용에 열린 마음을 가지고 있습니다.
+                 이러한 학습 능력을 활용하여 업무에 빠르게 적응하고 습득하는 것에 대해 자신감을 가지고 있습니다. -->
+                 라벨링 학습 솔루션 개발을 담당하면서 새로운 기술을 많이 접하게 되었습니다. 
+                 그래서 새로운 지식 습득에 대해 거부감이 없으며, 새로운 라이브러리, 도메인 습득 및 활용에 열린 마음을 가지고 있습니다.
+                 이러한 학습 능력을 활용하여 업무에 빠르게 적응하고 습득하는 것에 대해 자신감을 가지고 있습니다.
+        </div>
+
+        <div style="max-width: 100%;width: 100%;caret-color: rgb(55, 53, 47);padding: 3px 2px; white-space: pre-line;">
+          <!-- 앞으로도 변화하는 기술과 트렌드에 능동적으로 대응하며, 사용자 중심의 가치 높은 솔루션을 지속적으로 제공하는 개발자로서 더 나은 미래를 만들어 나가겠습니다. -->
+               앞으로도 변화하는 기술과 트렌드에 능동적으로 대응하며, 사용자 중심의 가치 높은 솔루션을 지속적으로 제공하는 개발자로서 더 나은 미래를 만들어 나가겠습니다.
+      </div>
+    </div>
+
+    <hr>
+
+    <div>
+        <h3 style="max-width: 100%;width: 100%;caret-color: rgb(55, 53, 47);padding: 3px 2px;font-weight: 600;font-size: 2.0em;line-height: 1.3;margin: 0px;color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);">개발 경력</h3>
+        <ul style="padding-top: 40px;">
+            <li style="--accent-color:#41516C">
+                <div class="date">2019.11 - 2021.11</div>
+                <div class="shadow-lg">
+                    <div class="title">수집 데이터 공급 및 가공 사업을 위한 솔루션 구축</div>
+                    <div class="descr">
+                      java 기반 데이터 수집 솔루션 구축.
+                      <br>
+                      데이터 수집 솔루션 관리 및 수집 데이터 시각화, aws 서버 내 해당 솔루션 배치 설정 및 배포 관리 솔루션 개발.
+                    </div>
+                </div>
+            </li>
+            <li style="--accent-color:#FBCA3E">
+                <div class="date">2020.11 - 2024.06</div>
+                <div class="shadow-lg">
+                    <div class="title">크라우드 기반 라벨링 웹사이트 구축 / 운영 -SmartAL</div>
+                    <div class="descr">
+                        크라우드워커 모집 기반 인공지능 학습을 위한 라벨링 저작도구(Obect Segmentation, Semantic Segmentation, Key Feature Point, Dicom Annoatation, Point Cloud Data, 3D Lidar Annoataion, Sound Wave Annoatation, Text Annnoatiaon) 기능 지원 및 크라우드워커 관리 솔루션 개발
+                        <div style="display: none;">
+                            <br>
+                            <a href="https://smartal.misoinfo.co.kr">SmartAL</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li style="--accent-color:#E24A68">
+                <div class="date">2021.02 - 2021.02</div>
+                <div class="shadow-lg">
+                    <div class="title">라벨링을 위한 원천 데이터 수집 및 정제 솔루션 구축 / 운영 -SmartALDC</div>
+                    <div class="descr">
+                      크라우드 기반 라벨링 솔루션 활용을 위한 원천 데이터 수집 및 정제 (음성 녹음, 동영상 이미지 추출, STT 사운드 변환 등) 솔루션 구현
+                    </div>
+                </div>
+            </li>
+            <li style="--accent-color:#1B5F8C">
+                <div class="date">2023.04 - 2023.12</div>
+                <div class="shadow-lg">
+                    <div class="title">인공지능 학습품질 진단 솔루션 구축 내 인증 서비스 구현 -SmartALQC</div>
+                    <div class="descr">
+                      인공지능 학습을 위한 라벨링 솔루션을 통해 나온 데이터들의 정확도 향상 및 품질 진단 관리를 위한 대시보드 구현.
+                      <br>
+                      Saas 기반 공공 데이터 품질진단 시스템 구현을 위한 쿠버네티스 기반 인증 시스템 구현.
+                    </div>
+                </div>
+            </li>
+            <li style="--accent-color:#4CADAD">
+                <div class="date">2023.04 - 2024.06</div>
+                <div class="shadow-lg">
+                    <div class="title">의료데이터 플랫폼 관리 솔루션 구축 및 운영</div>
+                    <div class="descr">
+                      다이컴 조회 프로젝트를 기반으로 한 의료 데이터 조회 및 rest api를 통한 의료 데이터 분석 학습 모델 연동 관리 시스템 구축.
+                    </div>
+                </div>
+            </li>
+        </ul>        
+        <div style="max-width: 100%;width: 100%;caret-color: rgb(55, 53, 47);padding: 3px 2px; white-space: pre-line;">
+        </div>
+    </div>
+</div>

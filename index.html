@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+
+    </style>
+<link href="./resources/css/jspanel.css" rel="stylesheet">
+<link href="./resources/css/Main.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">    
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="./resources/js/jspanel.js"></script>
+</head>
+<body>
+    <div class="container_fluid container_body">
+        <div id="#file_body">
+            <!-- <div class="file_item_wrap">
+                <div id="career" class="file_item_wrap_inner" panel-title="경력 사항">
+                    <div class="file_item file_item_folder">
+                        <img class="file_item_image_folder">
+                        <span class="file_item_text">경력</span>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="file_item_wrap">
+                <div id="certificant" class="file_item_wrap_inner" src="./certificate.html" panel-title="자격증">
+                    <div class="file_item file_item_folder">
+                        <img class="file_item_image_document_folder">
+                        <span class="file_item_text">자격증</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="file_item_wrap">
+                <div id="resume" class="file_item_wrap_inner" src="./resume.html" panel-width="1000px" panel-height="80%" panel-title="이력서";>
+                    <div class="file_item file_item_resume">
+                        <img class="file_item_image_resume">
+                        <span class="file_item_text">이력서</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    
+    <div class="footer">
+        <a href="https://www.flaticon.com/free-icons/document" title="document icons">Document icons created by Freepik - Flaticon</a>
+    </div>  
+<script>
+(function() {
+    $( document ).ready(function() {
+        fn_events();
+        
+    });
+
+    function fn_events() {
+        // item click event : give focused class
+        $(document).on('click', '.file_item_wrap_inner', function(e) {
+            $('.file_item_wrap_inner').removeClass('focused');
+            $(this).addClass('focused');
+            e.stopPropagation();
+        });
+
+        $('.file_item_wrap_inner').on('dblclick', function(e) {
+            $('.file_item_wrap_inner').removeClass('focused');
+            var width = ($(this).attr('panel-width') !== undefined ) ?  $(this).attr('panel-width') : (window.innerWidth * 0.3);
+            var height = ($(this).attr('panel-height') !== undefined ) ?  $(this).attr('panel-height') : '30vh';
+            var title =  ($(this).attr('panel-title') !== undefined ) ?  $(this).attr('panel-title') : '-';
+            var id =  $(this).attr('id');
+            fn_createPanel(id, $(this).attr("src"), width, height, title);
+        });
+
+        $('body').on('click', function(e) {
+            $('.file_item_wrap_inner').removeClass('focused');
+        });
+    };
+
+    function fn_createPanel(id, src,width, height, title) {
+        if(!src) {
+            return;
+        }
+        var $panelObject = $('#'+id + '_panel');
+        if($panelObject.length > 0) {
+            $panelObject.css('z-index', Number($panelObject.css('z-index') + 2));
+            return;
+        }
+
+        jsPanel.create({
+            contentAjax: {
+            url: src,
+            done: function (xhr, panel) {
+                panel.contentRemove();
+                panel.content.append(jsPanel.strToHtml(xhr.responseText));
+                }
+            },
+            id : id + '_panel',
+            position : {my:'center', at:'center'},
+            contentSize: width + ' ' + height,
+            headerTitle: title
+        });
+    }
+}());
+</script>
+</body>
+</html>

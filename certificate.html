@@ -1,0 +1,57 @@
+<div style="display: flex;" id="certificant_wrap">
+    <div class="file_item_wrap">
+        <div id="knight" class="file_item_wrap_inner" src="./resources/image/knight.png" panel-title="드디어땄던정처기~">
+            <div  class="file_item file_item_certificate">
+                <img class="file_item_image_cetificate">
+                <span class="file_item_text">정보 처리 기사</span>
+            </div>
+        </div>
+    </div>   
+</div>
+
+<script>
+
+(function() {
+    $( document ).ready(function() {
+        $('#certificant_wrap').on('dblclick', '.file_item_wrap_inner', function(e) {
+            $('.file_item_wrap_inner').removeClass('focused');
+            var width = ($(this).attr('panel-width') !== undefined ) ?  $(this).attr('panel-width') : (window.innerWidth * 0.3);
+            var height = ($(this).attr('panel-height') !== undefined ) ?  $(this).attr('panel-height') : '30vh';
+            var title =  ($(this).attr('panel-title') !== undefined ) ?  $(this).attr('panel-title') : '-';
+            var id =  $(this).attr('id');
+            fn_createImagePanel(id, $(this).attr("src"), width, height, title);
+        });
+    });
+
+    function fn_createImagePanel(id, src, width, height, title) {
+        if(!src) {
+            return;
+        }
+        var $panelObject = $('#'+id + '_panel');
+        if($panelObject.length > 0) {
+            $panelObject.css('z-index', Number($panelObject.css('z-index') + 2));
+            return;
+        }
+
+        jsPanel.create({
+            id : id + '_panel',
+            content: '<div class="container"><img src="'+src+'" style="max-width:1000px; max-hieght : 800px;"></div>',
+            position : {my:'center', at:'center'},
+            contentSize: width + ' ' + height,
+            headerTitle: title,
+            callback: [panel => {
+        // 이미지가 로드되기 전에 크기를 가져오려고 하므로 로드 이벤트를 사용하여 크기 조정하도록 수정합니다.
+        const image = panel.content.querySelector('img');
+        image.onload = () => {
+            const contentWidth = image.width;
+            const contentHeight = (image.height > 800) ? 800 : image.height;
+            panel.resize({
+                width: contentWidth,
+                height: contentHeight
+            }).reposition();
+         };
+        }]    
+        });
+    }
+})();
+</script>
